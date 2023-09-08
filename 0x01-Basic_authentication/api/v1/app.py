@@ -22,6 +22,8 @@ if auth:
 
 @app.before_request
 def before():
+    """Runs before any other request
+    and runs at each request to the server"""
     if auth is None:
         pass
     elif not auth.require_auth(request.path, routes):
