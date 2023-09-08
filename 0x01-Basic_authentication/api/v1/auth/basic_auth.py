@@ -39,7 +39,7 @@ class BasicAuth(Auth):
         """Extracts the users details from the basic auth"""
         if decoded_base64_authorization_header is None or not\
            isinstance(decoded_base64_authorization_header, str)\
-            or not decoded_base64_authorization_header.__contains__(':'):
+           or not decoded_base64_authorization_header.__contains__(':'):
             return (None, None)
         else:
             user, password = decoded_base64_authorization_header.split(':')
@@ -49,7 +49,7 @@ class BasicAuth(Auth):
                                      str) -> TypeVar('User'):
         """Returns a user based on his credentials"""
         if user_email is None or not isinstance(user_email, str)\
-           or  user_pwd is None or not isinstance(user_pwd, str):
+           or user_pwd is None or not isinstance(user_pwd, str):
             return None
         else:
             pass
