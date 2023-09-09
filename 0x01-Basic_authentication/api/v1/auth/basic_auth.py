@@ -64,8 +64,10 @@ class BasicAuth(Auth):
         """Overloads Auth"""
         if request is not None:
             Authorization_header = request.headers['Authorization']
-            extractedAuthHeader = self.extract_base64_authorization_header(Authorization_header)
-            decodedHeader = self.decode_base64_authorization_header(extractedAuthHeader)
+            extractedAuthHeader = self.extract_base64_authorization_header(
+                    Authorization_header)
+            decodedHeader = self.decode_base64_authorization_header(
+                    extractedAuthHeader)
             usermail, pwd = self.extract_user_credentials(decodedHeader)
             user = self.user_object_from_credentials(usermail, pwd)
             return user
