@@ -52,4 +52,14 @@ class BasicAuth(Auth):
            or user_pwd is None or not isinstance(user_pwd, str):
             return None
         else:
-            pass
+            user = User.search({'email': user_email})
+            if len(user) == 0:
+                return None
+            elif not user[0].is_valid_password(user_pwd):
+                return None
+            else:
+                return user[0]
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """Overloads Auth"""
+        pass
