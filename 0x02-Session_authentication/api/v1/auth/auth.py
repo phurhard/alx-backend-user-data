@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ Authentication base"""
 from flask import request
+from os import getenv
 from typing import List, TypeVar
 
 
@@ -8,7 +9,7 @@ class Auth:
     """Authentication class"""
     def __init__(self):
         """Initialization"""
-        pass
+        self.session_cookie_name = getenv("SESSION_NAME", "_my_session_id")
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """Returns False is a user does not require auth"""
@@ -33,7 +34,6 @@ class Auth:
 
     def session_cookie(self, request=None):
         """Returms a cookie value from a request"""
-        request.set_cookies(getenv('SESSION_NAME'))
         if request is None:
             return None
-        return request.cookies.get('_my_session_id')
+        return request.cookies.get(self.session_cookie_name)
