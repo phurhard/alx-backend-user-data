@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -59,9 +59,9 @@ class DB:
         '''Updates a user by the passed params'''
         user = self.find_user_by(id=user_id)
         for k, v in kwargs.items():
-            try:
-                user[k] = v
-            except:
+            if hasattr(user, k):
+                setattr(user, k, v)
+            else:
                 raise ValueError
         return None
 
