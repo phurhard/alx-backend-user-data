@@ -5,8 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-# from sqlalchemy.exc import InvalidRequestError
-# from sqlalchemy.exc import NotFoundError
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 from typing import List
 
 from user import Base, User
@@ -44,8 +44,24 @@ class DB:
         session.commit()
         return newUser
 
-    def find_user_by(param: str) -> List:
+    def find_user_by(self, **kwargs: str) -> List:
         '''Finds the first occurence of a user'''
         session = self._session
-        user = session.query(User).filter(param).first()
-        return user
+        try:
+            user = session.query(User).filter_by(**kwargs).first()
+            if user is None:
+                raise NoResultFound
+            return user
+        except KeyError:
+            raise InvalidRequestError
+
+    def update_user(self, user_id, **kwargs: str) -> None:
+        '''Updates a user by the passed params'''
+        user = self.find_user_by(id=user_id)
+        for k, v in kwargs.items():
+            try:
+                user[k] = v
+            except:
+                raise ValueError
+        return None
+
