@@ -21,11 +21,10 @@ def status():
 def users():
     '''A POST request function that creates a new user'''
     try:
-        print(request.get_json())
-        data = request.get_json()
-        print(data)
-        AUTH.register_user(data["email"], data["hashed_password"])
-        return jsonify({"email": data["email"], "massage": "user created"})
+        email = request.form.get("email")
+        password = request.form.get("password")
+        AUTH.register_user(email, password)
+        return jsonify({"email": email, "massage": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
