@@ -63,7 +63,6 @@ def profile():
     '''User profile'''
     try:
         session = request.cookies.get("session_id")
-        print(session)
         if session is None:
             abort(403)
         user = AUTH.get_user_from_session_id(session)
