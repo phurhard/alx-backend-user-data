@@ -64,4 +64,3 @@ class DB:
             else:
                 raise ValueError
         return None
-
