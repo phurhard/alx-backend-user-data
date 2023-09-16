@@ -30,15 +30,15 @@ class Auth:
         '''Generate a uuid'''
         return str(uuid.uuid4())
 
-    def register_user(self, mail: str, password: str) -> User:
+    def register_user(self, email: str, password: str) -> User:
         '''Registers a new user'''
-        user = self._db._session.query(User).filter_by(email=mail).first()
+        user = Auth._db._session.query(User).filter_by(email=email).first()
         if user is None:
             newUser = User()
-            newUser.email = mail
+            newUser.email = email
             newUser.hashed_password = self._hash_password(password)
-            self._db._session.add(newUser)
-            self._db._session.commit()
+            Auth._db._session.add(newUser)
+            Auth._db._session.commit()
             return newUser
         else:
             raise ValueError(f"User {mail} already exists")
