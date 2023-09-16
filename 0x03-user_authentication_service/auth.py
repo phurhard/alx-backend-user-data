@@ -39,9 +39,18 @@ class Auth:
 
     def valid_login(self, mail: str, pwd: str) -> bool:
         '''Validates a user login'''
-        user  = self._db._session.query(User).filter_by(email=mail).first()
+        user = self._db._session.query(User).filter_by(email=mail).first()
         if user is not None:
             pwd = pwd.encode('utf--8')
             return bcrypt.checkpw(pwd, user.hashed_password)
         else:
             return False
+
+    def create_session(self, mail: str) -> str:
+        '''Takes a mail and returns a session id'''
+        user = self._db._session.query(User).filter_by(email=mail).first()
+        if user is not None:
+            session_id = self._generate_uuid()
+            user.session_id = session_id
+            self._db._session.commit()
+            return user.session_id
