@@ -44,7 +44,7 @@ class DB:
         session.commit()
         return newUser
 
-    def find_user_by(self, **kwargs: str) -> List:
+    def find_user_by(self, **kwargs) -> User:
         '''Finds the first occurence of a user'''
         session = self._session
         try:
