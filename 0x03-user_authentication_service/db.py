@@ -55,7 +55,7 @@ class DB:
         except KeyError:
             raise InvalidRequestError
 
-    def update_user(self, user_id: int, **kwargs: str) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         '''Updates a user by the passed params'''
         user = self.find_user_by(id=user_id)
         for k, v in kwargs.items():
