@@ -3,6 +3,7 @@
 import bcrypt
 from user import User
 from db import DB
+import uuid
 
 
 class Auth:
@@ -19,6 +20,10 @@ class Auth:
         passwd = pwd.encode('utf-8')
         return bcrypt.hashpw(passwd, salt)
 
+    def _generate_uuid(self) -> uuid:
+        '''Generate a uuid'''
+        return str(uuid.uuid4())
+
     def register_user(self, mail: str, password: str) -> User:
         '''Registers a new user'''
         user = self._db._session.query(User).filter_by(email=mail).first()
@@ -31,3 +36,12 @@ class Auth:
             return newUser
         else:
             raise ValueError(f"User {mail} already exists")
+
+    def valid_login(self, mail: str, pwd: str) -> bool:
+        '''Validates a user login'''
+        user  = self._db._session.query(User).filter_by(email=mail).first()
+        if user is not None:
+            pwd = pwd.encode('utf--8')
+            return bcrypt.checkpw(pwd, user.hashed_password)
+        else:
+            return False
