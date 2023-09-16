@@ -9,7 +9,11 @@ import uuid
 def _generate_uuid() -> uuid:
     '''Generate a uuid'''
     return str(uuid.uuid4())
-
+def _hash_password(self, pwd: str) -> bin:
+    '''binary that is returned'''
+    salt = bcrypt.gensalt()
+    passwd = pwd.encode('utf-8')
+    return bcrypt.hashpw(passwd, salt)
 
 class Auth:
     """Auth class to interact with the authentication database.
