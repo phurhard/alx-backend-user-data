@@ -15,7 +15,7 @@ class Auth:
     """Auth class to interact with the authentication database.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         '''initialization'''
         self._db = DB()
 

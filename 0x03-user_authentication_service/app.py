@@ -38,9 +38,10 @@ def login():
         pwd = request.form.get("password")
         if AUTH.valid_login(mail, pwd):
             session = AUTH.create_session(mail)
-            resp = make_response(session)
+            resp = make_response(jsonify({"email": mail,
+                                          "message": "logged in"}), 200)
             resp.set_cookie('session_id', str(session))
-            return jsonify({"email": mail, "message": "logged in"}), 200
+            return resp
         else:
             abort(401)
 
@@ -52,7 +53,7 @@ def delete():
     user = AUTH.get_user_from_session_id(session)
     if user:
         AUTH.destroy_session(user.id)
-        return redirect(url_for('status'))  # Redirection to GET /
+        return redirect(url_for('status')), 204  # Redirection to GET /
     else:
         abort(403)
 
@@ -62,9 +63,13 @@ def profile():
     '''User profile'''
     try:
         session = request.cookies.get("session_id")
+        print(session)
+        if session is None:
+            abort(403)
         user = AUTH.get_user_from_session_id(session)
         if user is not None:
-            return jsonify({"email": user.email}), 200
+            return jsonify({"email": user.email,
+                            "session": user.session_id}), 200
         else:
             abort(403)
     except Exception as e:
