@@ -29,7 +29,7 @@
     ```pip3 install bcrypt```
 
 ## Tasks
-[x] 0. User model
+* [x] 0. User model
 
 In this task you will create a SQLAlchemy model named User for a database table named users (by using the mapping declaration of SQLAlchemy).
 
@@ -43,7 +43,7 @@ The model will have the following attributes:
 [File](user.py)
 
     
-[x] 1. create user
+* [x] 1. create user
 In this task, you will complete the DB class provided below to implement the add_user method.
 
     """DB module
@@ -81,7 +81,7 @@ Implement the add_user method, which has two required string arguments: email an
 
 [File](db.py)
  
-[x] 2. Find user
+* [x] 2. Find user
 
 In this task you will implement the DB.find_user_by method. This method takes in arbitrary keyword arguments and returns the first row found in the users table as filtered by the method’s input arguments. No validation of input arguments required at this point.
 
@@ -93,7 +93,7 @@ Warning:
 
 [File](db.py)
 
-[x] 3. update user
+* [x] 3. update user
 In this task, you will implement the DB.update_user method that takes as argument a required user_id integer and arbitrary keyword arguments, and returns None.
 
 The method will use find_user_by to locate the user to update, then will update the user’s attributes as passed in the method’s arguments then commit changes to the database.
@@ -101,14 +101,14 @@ The method will use find_user_by to locate the user to update, then will update 
 If an argument that does not correspond to a user attribute is passed, raise a ValueError.
 [File](db.py)
 
-[x] 4. Hash password
+* [x] 4. Hash password
 
 In this task you will define a _hash_password method that takes in a password string arguments and returns bytes.
 
 The returned bytes is a salted hash of the input password, hashed with bcrypt.hashpw.
 [File](auth.py)
 
-5. Register user
+* [x] 5. Register user
 
 In this task, you will implement the Auth.register_user 
 Note that Auth._db is a private property and should NEVER be used from outside the class.
@@ -121,7 +121,7 @@ If not, hash the password with _hash_password, save the user to the database usi
 
 [File](auth.py)
 
-6. Basic Flask app
+* [x] 6. Basic Flask app
 
 In this task, you will set up a basic Flask app.
 
@@ -164,23 +164,23 @@ Remember that you should only use AUTH in this app. DB is a lower abstraction th
 
 [File](app.py)
 
-[x] 8. Credentials validation
+* [x] 8. Credentials validation
 
 In this task, you will implement the Auth.valid_login method. It should expect email and password required arguments and return a boolean.
 
 Try locating the user by email. If it exists, check the password with bcrypt.checkpw. If it matches return True. In any other case, return False.
 
-("auth.py")[File]
+[File](auth.py)
 
-[x] 9. Generate UUIDs
+* [x] 9. Generate UUIDs
 
 In this task you will implement a _generate_uuid function in the auth module. The function should return a string representation of a new UUID. Use the uuid module.
 
 Note that the method is private to the auth module and should NOT be used outside of it.
 
-("auth.py")[File]
+[File](auth.py)
 
-[x] 10. Get session ID
+* [x] 10. Get session ID
 
 In this task, you will implement the Auth.create_session method. It takes an email string argument and returns the session ID as a string.
 
@@ -188,9 +188,9 @@ The method should find the user corresponding to the email, generate a new UUID 
 
 Remember that only public methods of self._db can be used.
 
-("auth.py")[File]
+[File](auth.py)
 
-[x] 11. Log in
+* [x] 11. Log in
 
 In this task, you will implement a login function to respond to the POST /sessions route.
 
@@ -202,9 +202,9 @@ Otherwise, create a new session for the user, store it the session ID as a cooki
 
 {"email": "<user email>", "message": "logged in"}
 
-("app.py")[File]
+[File](app.py)
 
-[x] 12. Find user by session ID
+* [x] 12. Find user by session ID
 
 In this task, you will implement the Auth.get_user_from_session_id method. It takes a single session_id string argument and returns the corresponding User or None.
 
@@ -212,9 +212,9 @@ If the session ID is None or no user is found, return None. Otherwise return the
 
 Remember to only use public methods of self._db.
 
-("auth.py")[File]
+[File](auth.py)
 
-[x] 13. Destroy session
+* [x] 13. Destroy session
 
 In this task, you will implement Auth.destroy_session. The method takes a single user_id integer argument and returns None.
 
@@ -222,9 +222,9 @@ The method updates the corresponding user’s session ID to None.
 
 Remember to only use public methods of self._db.
 
-("auth.py")[File]
+[File](auth.py)
 
-[x] 14. Log out
+* [x] 14. Log out
 In this task, you will implement a logout function to respond to the DELETE /sessions route.
 
 The request is expected to contain the session ID as a cookie with key "session_id".
@@ -232,9 +232,9 @@ The request is expected to contain the session ID as a cookie with key "session_
 Find the user with the requested session ID. If the user exists destroy the session and redirect the user to GET /. If the user does not exist, respond with a 403 HTTP status.
 
 
-("app.py")[File]
+[File](app.py)
 
-[x] 15. User profile
+* [x] 15. User profile
 
 In this task, you will implement a profile function to respond to the GET /profile route.
 
@@ -244,17 +244,18 @@ The request is expected to contain a session_id cookie. Use it to find the user.
 
 If the session ID is invalid or the user does not exist, respond with a 403 HTTP status.
 
-("app.py")[File]
+[File](app.py)
 
-[x] 16. Generate reset password token
+* [x] 16. Generate reset password token
 
 In this task, you will implement the Auth.get_reset_password_token method. It take an email string argument and returns a string.
 
 Find the user corresponding to the email. If the user does not exist, raise a ValueError exception. If it exists, generate a UUID and update the user’s reset_token database field. Return the token.
 
-("auth.py")[File]
+[File](auth.py)
 
-[x] 17. Get reset password token
+
+* [x] 17. Get reset password token
 
 In this task, you will implement a get_reset_password_token function to respond to the POST /reset_password route.
 
@@ -263,18 +264,21 @@ The request is expected to contain form data with the "email" field.
 If the email is not registered, respond with a 403 status code. Otherwise, generate a token and respond with a 200 HTTP status and the following JSON payload:
 
 {"email": "<user email>", "reset_token": "<reset token>"}
-("app.py")[File]
 
-[x] 18. Update password
+[File](app.py)
+
+
+* [x] 18. Update password
 
 In this task, you will implement the Auth.update_password method. It takes reset_token string argument and a password string argument and returns None.
 
 Use the reset_token to find the corresponding user. If it does not exist, raise a ValueError exception.
 
 Otherwise, hash the password and update the user’s hashed_password field with the new hashed password and the reset_token field to None.
-("auth.py")[File]
 
-[x] 19. Update password end-point
+[File](auth.py")
+
+* [x] 19. Update password end-point
 
 In this task you will implement the update_password function in the app module to respond to the PUT /reset_password route.
 
@@ -284,7 +288,14 @@ Update the password. If the token is invalid, catch the exception and respond wi
 
 If the token is valid, respond with a 200 HTTP code and the following JSON payload:
 
-{"email": "<user email>", "message": "Password updated"}
-("app.py")[File]
 
+{"email": "<user email>", "message": "Password updated"}
+
+[File](app.py)
+
+* [x] 20. End to end integration testing.
+      The api is tested by writimg a script in python using the requests library
+      file is available **[here](main.py)**
+
+      
 Copyright © 2023 ALX, All rights reserved.
