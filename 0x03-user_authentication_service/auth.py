@@ -9,11 +9,14 @@ import uuid
 def _generate_uuid() -> uuid:
     '''Generate a uuid'''
     return str(uuid.uuid4())
+
+
 def _hash_password(self, pwd: str) -> bin:
     '''binary that is returned'''
     salt = bcrypt.gensalt()
     passwd = pwd.encode('utf-8')
     return bcrypt.hashpw(passwd, salt)
+
 
 class Auth:
     """Auth class to interact with the authentication database.
@@ -23,28 +26,17 @@ class Auth:
         '''initialization'''
         self._db = DB()
 
-    def _hash_password(self, pwd: str) -> bin:
-        '''Takes a password string and returns a binary
-        representation of the string'''
-        salt = bcrypt.gensalt()
-        passwd = pwd.encode('utf-8')
-        return bcrypt.hashpw(passwd, salt)
-
-    def _generate_uuid(self) -> uuid:
-        '''Generate a uuid'''
-        return str(uuid.uuid4())
-
     def register_user(self, email: str, password: str) -> User:
         '''Registers a new user'''
-        user = Auth._db._session.query(User).filter_by(email=email).first()
+        user = self._db._session.query(User).filter_by(email=email).first()
         if user is None:
             newUser = User()
             newUser.email = email
-            newUser.hashed_password = self._hash_password(password)
-            Auth._db._session.add(newUser)
-            Auth._db._session.commit()
+            newUser.hashed_password = _hash_password(password)
+            self._db._session.add(newUser)
+            self._db._session.commit()
             return newUser
-        else:
+        elif user:
             raise ValueError(f"User {mail} already exists")
 
     def valid_login(self, mail: str, pwd: str) -> bool:
