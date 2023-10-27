@@ -2,6 +2,7 @@
 """
 Route module for the API
 """
+
 from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -14,8 +15,7 @@ app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 routes = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
-auth = getenv("AUTH_TYPE")
-if auth:
+if auth := getenv("AUTH_TYPE"):
     if auth == "basic_auth":
         from api.v1.auth.basic_auth import BasicAuth
         auth = BasicAuth()

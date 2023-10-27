@@ -63,16 +63,11 @@ class Auth:
         user = self._db._session.query(User
                                        ).filter_by(
                                            session_id=sessionId).first()
-        if user is not None:
-            return user
-        else:
-            return None
+        return user if user is not None else None
 
     def destroy_session(self, userId: int) -> None:
         '''Destroys a session for a given user id'''
-        user = self._db._session.query(User
-                                       ).filter_by(id=userId).first()
-        if user:
+        if user := self._db._session.query(User).filter_by(id=userId).first():
             user.session_id = None
         return None
 
@@ -81,10 +76,9 @@ class Auth:
         user = self._db._session.query(User).filter_by(email=mail).first()
         if user is None:
             raise ValueError
-        else:
-            token = _generate_uuid()
-            user.reset_token = token
-            return user.reset_token
+        token = _generate_uuid()
+        user.reset_token = token
+        return user.reset_token
 
     def update_password(self, reset_token: str, password: str) -> None:
         '''Updates the password of the user which reset token was given'''
@@ -94,7 +88,6 @@ class Auth:
                                                    ).first()
         if user is None:
             raise ValueError
-        else:
-            user.reset_token = None
-            newPwd = self._hash_password(password)
-            user.hashed_password = newPwd
+        user.reset_token = None
+        newPwd = self._hash_password(password)
+        user.hashed_password = newPwd

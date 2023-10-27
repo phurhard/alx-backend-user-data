@@ -12,7 +12,7 @@ app = Flask(__name__)
 def root_path():
     """ Root path
     """
-    return "Cookie value: {}\n".format(auth.session_cookie(request))
+    return f"Cookie value: {auth.session_cookie(request)}\n"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")

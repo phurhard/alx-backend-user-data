@@ -40,29 +40,25 @@ class Base():
         """
         if type(self) != type(other):
             return False
-        if not isinstance(self, Base):
-            return False
-        return (self.id == other.id)
+        return False if not isinstance(self, Base) else (self.id == other.id)
 
     def to_json(self, for_serialization: bool = False) -> dict:
         """ Convert the object a JSON dictionary
         """
-        result = {}
-        for key, value in self.__dict__.items():
-            if not for_serialization and key[0] == '_':
-                continue
-            if type(value) is datetime:
-                result[key] = value.strftime(TIMESTAMP_FORMAT)
-            else:
-                result[key] = value
-        return result
+        return {
+            key: value.strftime(TIMESTAMP_FORMAT)
+            if type(value) is datetime
+            else value
+            for key, value in self.__dict__.items()
+            if for_serialization or key[0] != '_'
+        }
 
     @classmethod
     def load_from_file(cls):
         """ Load all objects from file
         """
         s_class = cls.__name__
-        file_path = ".db_{}.json".format(s_class)
+        file_path = f".db_{s_class}.json"
         DATA[s_class] = {}
         if not path.exists(file_path):
             return
@@ -77,11 +73,10 @@ class Base():
         """ Save all objects to file
         """
         s_class = cls.__name__
-        file_path = ".db_{}.json".format(s_class)
-        objs_json = {}
-        for obj_id, obj in DATA[s_class].items():
-            objs_json[obj_id] = obj.to_json(True)
-
+        file_path = f".db_{s_class}.json"
+        objs_json = {
+            obj_id: obj.to_json(True) for obj_id, obj in DATA[s_class].items()
+        }
         with open(file_path, 'w') as f:
             json.dump(objs_json, f)
 
@@ -127,11 +122,11 @@ class Base():
         """
         s_class = cls.__name__
         def _search(obj):
-            if len(attributes) == 0:
+            if not attributes:
                 return True
             for k, v in attributes.items():
                 if (getattr(obj, k) != v):
                     return False
             return True
-        
+
         return list(filter(_search, DATA[s_class].values()))

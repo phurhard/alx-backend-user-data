@@ -38,27 +38,25 @@ class BasicAuth(Auth):
                                  str) -> (str, str):
         """Extracts the users details from the basic auth"""
         if decoded_base64_authorization_header is None or not\
-           isinstance(decoded_base64_authorization_header, str)\
-           or not decoded_base64_authorization_header.__contains__(':'):
+               isinstance(decoded_base64_authorization_header, str)\
+               or not decoded_base64_authorization_header.__contains__(':'):
             return (None, None)
-        else:
-            user, password = decoded_base64_authorization_header.split(':')
-            return (user, password)
+        user, password = decoded_base64_authorization_header.split(':')
+        return (user, password)
 
     def user_object_from_credentials(self, user_email: str, user_pwd:
                                      str) -> TypeVar('User'):
         """Returns a user based on his credentials"""
         if user_email is None or not isinstance(user_email, str)\
-           or user_pwd is None or not isinstance(user_pwd, str):
+               or user_pwd is None or not isinstance(user_pwd, str):
+            return None
+        user = User.search({'email': user_email})
+        if len(user) == 0:
+            return None
+        elif not user[0].is_valid_password(user_pwd):
             return None
         else:
-            user = User.search({'email': user_email})
-            if len(user) == 0:
-                return None
-            elif not user[0].is_valid_password(user_pwd):
-                return None
-            else:
-                return user[0]
+            return user[0]
 
     def current_user(self, request=None) -> TypeVar('User'):
         """Overloads Auth"""
@@ -69,5 +67,4 @@ class BasicAuth(Auth):
             decodedHeader = self.decode_base64_authorization_header(
                     extractedAuthHeader)
             usermail, pwd = self.extract_user_credentials(decodedHeader)
-            user = self.user_object_from_credentials(usermail, pwd)
-            return user
+            return self.user_object_from_credentials(usermail, pwd)

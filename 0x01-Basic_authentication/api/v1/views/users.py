@@ -64,13 +64,11 @@ def create_user() -> str:
       - 400 if can't create the new User
     """
     rj = None
-    error_msg = None
     try:
         rj = request.get_json()
     except Exception as e:
         rj = None
-    if rj is None:
-        error_msg = "Wrong format"
+    error_msg = "Wrong format" if rj is None else None
     if error_msg is None and rj.get("email", "") == "":
         error_msg = "email missing"
     if error_msg is None and rj.get("password", "") == "":
@@ -85,7 +83,7 @@ def create_user() -> str:
             user.save()
             return jsonify(user.to_json()), 201
         except Exception as e:
-            error_msg = "Can't create User: {}".format(e)
+            error_msg = f"Can't create User: {e}"
     return jsonify({'error': error_msg}), 400
 
 

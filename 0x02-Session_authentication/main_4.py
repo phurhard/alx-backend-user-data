@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ Main 4
 """
+
 from flask import Flask, request
 from api.v1.auth.session_auth import SessionAuth
 from models.user import User
@@ -17,7 +18,7 @@ user.save()
 """ Create a session ID """
 sa = SessionAuth()
 session_id = sa.create_session(user.id)
-print("User with ID: {} has a Session ID: {}".format(user.id, session_id))
+print(f"User with ID: {user.id} has a Session ID: {session_id}")
 
 """ Create a Flask app """
 app = Flask(__name__)
@@ -29,7 +30,7 @@ def root_path():
     request_user = sa.current_user(request)
     if request_user is None:
         return "No user found\n"
-    return "User found: {}\n".format(request_user.id)
+    return f"User found: {request_user.id}\n"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000", debug=1)

@@ -2,6 +2,7 @@
 """
 Main file
 """
+
 from db import DB
 from user import User
 
@@ -21,4 +22,4 @@ try:
     my_db.update_user(user.id, email='NewPwd')
     print("Password updated")
 except ValueError:
-    print(f"Error")
+    print("Error")

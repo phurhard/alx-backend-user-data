@@ -12,10 +12,10 @@ class Auth:
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """Returns False is a user does not require auth"""
-        if path is None or excluded_paths is None or len(excluded_paths) == 0:
+        if path is None or excluded_paths is None or not excluded_paths:
             return True
 
-        elif path in excluded_paths or path+'/' in excluded_paths:
+        elif path in excluded_paths or f'{path}/' in excluded_paths:
             return False
         else:
             return True
