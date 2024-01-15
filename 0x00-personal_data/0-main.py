@@ -11,3 +11,9 @@ messages = ["name=egg;email=eggmin@eggsample.com;password=eggcellent;date_of_bir
 for message in messages:
     print(filter_datum(fields, 'xxx', message, ';'))
 
+
+# separator = ':'
+# fields = ['password', 'credit_card']
+# redaction = '***'
+
+# message = 'username:john, password=secret, credit_card:1234-5678-9012-3456'
