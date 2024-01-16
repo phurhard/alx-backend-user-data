@@ -42,7 +42,6 @@ class BasicAuth(Auth):
            or not decoded_base64_authorization_header.__contains__(':'):
             return (None, None)
         else:
-            print(f'Here: {decoded_base64_authorization_header}')
             user, password = decoded_base64_authorization_header.split(':', 1)
             return (user, password)
 
