@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """ Authentication base"""
 from flask import request
-from os import getenv
 from typing import List, TypeVar
 
 
@@ -9,7 +8,7 @@ class Auth:
     """Authentication class"""
     def __init__(self):
         """Initialization"""
-        self.session_cookie_name = getenv("SESSION_NAME", "_my_session_id")
+        pass
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """Returns False is a user does not require auth"""
@@ -18,6 +17,9 @@ class Auth:
 
         elif path in excluded_paths or path+'/' in excluded_paths:
             return False
+        for patterns in excluded_paths:
+            if patterns.endswith('*') and path.startswith(patterns[:-1]):
+                return False
         else:
             return True
 
@@ -31,9 +33,3 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         """Currrent user"""
         return None
-
-    def session_cookie(self, request=None):
-        """Returms a cookie value from a request"""
-        if request is None:
-            return None
-        return request.cookies.get(self.session_cookie_name)
