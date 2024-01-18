@@ -47,6 +47,7 @@ def before():
         abort(401)
     else:
         request.current_user = auth.current_user(request)
+        
 
 
 @app.errorhandler(404)
