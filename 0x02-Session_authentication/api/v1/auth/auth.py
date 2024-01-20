@@ -11,7 +11,6 @@ class Auth:
         """Initialization"""
         self.session_cookie_name = os.getenv("SESSION_NAME", "_my_session_id")
 
-
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """Returns False is a user does not require auth"""
         if path is None or excluded_paths is None or len(excluded_paths) == 0:
