@@ -34,8 +34,8 @@ def before():
         pass
     elif auth.authorization_header(request) is None:
         abort(401)
-    elif auth.current_user(request) is None:
-        abort(403)
+    else:
+        request.current_user = auth.current_user(request)
 
 
 @app.errorhandler(404)

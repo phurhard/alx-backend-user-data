@@ -2,13 +2,14 @@
 """ Authentication base"""
 from flask import request
 from typing import List, TypeVar
+import os
 
 
 class Auth:
     """Authentication class"""
     def __init__(self):
         """Initialization"""
-        self.session_cookie_name = getenv("SESSION_NAME", "_my_session_id")
+        self.session_cookie_name = os.getenv("SESSION_NAME", "_my_session_id")
         
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
