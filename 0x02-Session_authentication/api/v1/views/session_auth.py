@@ -32,3 +32,19 @@ def login_session():
         resp.set_cookie(auth.session_cookie_name,
                         str(session_id))
         return user_json
+
+
+@app_views.route('/auth_session/logout',
+                 strict_slashes=False, methods=["DELETE"])
+def logout_session():
+    """Logouts a user"""
+    from api.v1.app import auth
+    try:
+        if auth.destroy_session(request):
+            return jsonify({}), 200
+        abort(404)
+    except Exception:
+        pass
+        
+        
+    
