@@ -45,6 +45,3 @@ def logout_session():
         abort(404)
     except Exception:
         pass
-        
-        
-    
