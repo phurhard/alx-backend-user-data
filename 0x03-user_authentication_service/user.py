@@ -17,7 +17,8 @@ class User(Base):
     session_id = Column(String(250), nullable=True)
     reset_token = Column(String(250), nullable=True)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """Representation of the string"""
         return '<User (id="%s", email="%s", hashed_password="%s",\
                     session_id="%s", reset_token="%s")>' % (
                         self.id, self.email,
