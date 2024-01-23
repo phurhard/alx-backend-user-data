@@ -94,7 +94,7 @@ def log_out(session_id: str) -> None:
     url = "http://127.0.0.1:5000/sessions"
     cookie = {"session_id": session_id}
     user = requests.delete(url, cookies=cookie)
-    assert (user.status_code == 204)
+    assert (user.status_code == 200)
 
 
 def reset_password_token(email: str) -> str:
