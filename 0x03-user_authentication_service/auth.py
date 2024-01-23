@@ -14,6 +14,8 @@ def _generate_uuid() -> uuid:
 def _hash_password(pwd: str) -> bytes:
     '''returns a salted hash of the password'''
     salt = bcrypt.gensalt()
+    if not isinstance(pwd, str):
+        return
     passwd = pwd.encode('utf-8')
     return bcrypt.hashpw(passwd, salt)
 
