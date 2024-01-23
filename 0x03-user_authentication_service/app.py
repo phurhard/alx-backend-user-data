@@ -51,11 +51,11 @@ def logout():
     '''Delete a users session from the list of logged in users'''
     session = request.cookies.get('session_id')
     if session is None:
-        abort(403)
+        abort(401)
     user = AUTH.get_user_from_session_id(session)
     if user:
         AUTH.destroy_session(user.id)
-        return redirect(url_for('/')), 302  # Redirection to GET /
+        return redirect(url_for('status')), 302  # Redirection to GET /
     else:
         abort(403)
 
