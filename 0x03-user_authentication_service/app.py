@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """API documentation"""
 from flask import Flask, jsonify, request, abort
-from Flask import make_response, url_for, redirect
+from flask import make_response, url_for, redirect
 from auth import Auth
 from flask_cors import CORS
 
@@ -30,9 +30,9 @@ def users():
         return jsonify({"message": "email already registered"}), 400
 
 
-@app.route('/sessions', methods=["POST"])
+@app.route('/sessions', methods=["POST"], strict_slashes=False)
 def login():
-    '''Logins in a user'''
+    '''Logins a user in using the session storage kept by the machine server'''
     if request.form:
         mail = request.form.get("email")
         pwd = request.form.get("password")
