@@ -64,11 +64,13 @@ class Auth:
         else:
             return None
 
-    def get_user_from_session_id(self, sessionId: str) -> User:
+    def get_user_from_session_id(self, session_id: str) -> User:
         '''Takes a session id and returns the user'''
+        if session_id is None:
+            return None
         user = self._db._session.query(User
                                        ).filter_by(
-                                           session_id=sessionId).first()
+                                           session_id=session_id).first()
         if user is not None:
             return user
         else:
