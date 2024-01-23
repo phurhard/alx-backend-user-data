@@ -104,5 +104,5 @@ class Auth:
             raise ValueError
         else:
             user.reset_token = None
-            newPwd = self._hash_password(password)
+            newPwd = _hash_password(password)
             user.hashed_password = newPwd
