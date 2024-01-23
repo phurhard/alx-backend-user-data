@@ -6,20 +6,6 @@ from db import DB
 import uuid
 
 
-def _generate_uuid() -> uuid:
-    '''Generate a uuid'''
-    return str(uuid.uuid4())
-
-
-def _hash_password(pwd: str) -> bytes:
-    '''returns a salted hash of the password'''
-    salt = bcrypt.gensalt()
-    if not isinstance(pwd, str):
-        return
-    passwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
-    return passwd
-
-
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -27,6 +13,18 @@ class Auth:
     def __init__(self) -> None:
         '''initialization'''
         self._db = DB()
+
+    def _generate_uuid(self) -> uuid:
+        '''Generate a uuid'''
+        return str(uuid.uuid4())
+
+    def _hash_password(self, pwd: str) -> bytes:
+        '''returns a salted hash of the password'''
+        salt = bcrypt.gensalt()
+        if not isinstance(pwd, str):
+            return
+        passwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
+        return passwd
 
     def register_user(self, email: str, password: str) -> User:
         '''Registers a new user'''
