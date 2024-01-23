@@ -32,13 +32,14 @@ class Auth:
         '''Registers a new user'''
         user = self._db._session.query(User).filter_by(email=email).first()
         if user is None:
-            newUser = User(email=email, hashed_password=_hash_password(password))
+            newUser = User(email=email,
+                           hashed_password=_hash_password(password))
             self._db._session.add(newUser)
             self._db._session.commit()
             return newUser
         elif user:
             raise ValueError(f"User {email} already exists")
-        return
+        return newUser
 
     def valid_login(self, mail: str, pwd: str) -> bool:
         '''Validates a user login'''
