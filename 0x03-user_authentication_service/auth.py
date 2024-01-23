@@ -45,8 +45,8 @@ class Auth:
         '''Validates a user login'''
         user = self._db._session.query(User).filter_by(email=mail).first()
         if user is not None:
-            pwd = pwd.encode('utf--8')
-            return bcrypt.checkpw(pwd, user.hashed_password)
+            passwd = pwd.encode('utf-8')
+            return bcrypt.checkpw(passwd, user.hashed_password)
         else:
             return False
 

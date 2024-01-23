@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """API documentation"""
-from flask import Flask, jsonify, request, abort,\
-                    make_response, url_for, redirect
+from flask import Flask, jsonify, request, abort
+from Flask import make_response, url_for, redirect
 from auth import Auth
 from flask_cors import CORS
 
