@@ -53,15 +53,16 @@ class Auth:
         else:
             return False
 
-    def create_session(self, mail: str) -> str:
+    def create_session(self, email: str) -> str:
         '''Takes a mail and generates a session id,
         used at the start of a user loging in to the site'''
-        user = self._db._session.query(User).filter_by(email=mail).first()
+        user = self._db._session.query(User).filter_by(email=email).first()
         if user is not None:
-            session_id = self._generate_uuid()
-            user.session_id = session_id
+            user.session_id = _generate_uuid()
             self._db._session.commit()
             return user.session_id
+        else:
+            return None
 
     def get_user_from_session_id(self, sessionId: str) -> User:
         '''Takes a session id and returns the user'''
