@@ -16,8 +16,8 @@ def _hash_password(pwd: str) -> bytes:
     salt = bcrypt.gensalt()
     if not isinstance(pwd, str):
         return
-    passwd = pwd.encode('utf-8')
-    return bcrypt.hashpw(passwd, salt)
+    passwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
+    return passwd
 
 
 class Auth:
