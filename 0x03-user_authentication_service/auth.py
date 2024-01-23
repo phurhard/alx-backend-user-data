@@ -11,8 +11,8 @@ def _generate_uuid() -> uuid:
     return str(uuid.uuid4())
 
 
-def _hash_password(self, pwd: str) -> bin:
-    '''binary that is returned'''
+def _hash_password(pwd: str) -> bytes:
+    '''returns a salted hash of the password'''
     salt = bcrypt.gensalt()
     passwd = pwd.encode('utf-8')
     return bcrypt.hashpw(passwd, salt)
