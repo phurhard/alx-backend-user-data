@@ -84,9 +84,9 @@ class Auth:
             user.session_id = None
         return None
 
-    def get_reset_password_token(self, mail: str) -> str:
+    def get_reset_password_token(self, email: str) -> str:
         '''Generates a password reset token for a given mail'''
-        user = self._db._session.query(User).filter_by(email=mail).first()
+        user = self._db._session.query(User).filter_by(email=email).first()
         if user is None:
             raise ValueError
         else:
