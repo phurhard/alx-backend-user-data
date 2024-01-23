@@ -69,11 +69,10 @@ def profile():
             abort(403)
         user = AUTH.get_user_from_session_id(session)
         if user is not None:
-            return jsonify({"email": user.email,
-                            "session": user.session_id}), 200
+            return jsonify({"email": user.email}), 200
         else:
             abort(403)
-    except Exception as e:
+    except Exception:
         abort(403)
 
 
