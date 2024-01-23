@@ -46,9 +46,9 @@ def login():
             abort(401)
 
 
-@app.route('/sessions', methods=["DELETE"])
-def delete():
-    '''Delete a users session'''
+@app.route('/sessions', methods=["DELETE"], strict_slashes=False)
+def logout():
+    '''Delete a users session from the list of logged in users'''
     session = request.cookies.get('session_id')
     if session is None:
         abort(403)
